@@ -21,11 +21,18 @@ class MealsController
 
   def edit
     display_meals
-    index = @meals_view.ask_user_for(:index).to_i
-    id = meals[index].id
-    meal = @meal_repository.find(id)
+    index = @meals_view.ask_user_for(:index).to_i - 1
     name = @meals_view.ask_user_for(:name)
     price = @meals_view.ask_user_for(:price).to_i
+    @meal_repository.update(index, name, price)
+    display_meals
+  end
+
+  def delete
+    display_meals
+    index = @meals_view.ask_user_for(:index).to_i - 1
+    @meal_repository.destroy(index)
+    display_meals
   end
 
   private

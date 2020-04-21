@@ -1,38 +1,37 @@
 require "csv"
-require_relative "../models/meal"
 
-class MealRepository
+class BaseRepository
   def initialize(csv_file)
     @csv_file = csv_file
-    @meals = []
+    @elements = []
     @next_id = 1
     load_csv if File.exist?(@csv_file)
   end
 
   def all
-    @meals
+    @elements
   end
 
-  def add(meal)
-    meal.id = @next_id
-    @meals << meal
+  def add(element)
+    element.id = @next_id
+    @elements << element
     @next_id += 1
     save_csv
   end
 
   def find(id)
-    @meals.find { |meal| meal.id == id }
+    @elements.find { |element| element.id == id }
   end
 
-  def update(index, name, price)
-    meal = @meals[index]
-    meal.name = name
-    meal.price = price
+  def update(index, name, address)
+    element = @elements[index]
+    element.name = name
+    element.address = address
     save_csv
   end
 
   def destroy(index)
-    @meals.delete_at(index)
+    @elements.delete_at(index)
     save_csv
   end
 
@@ -40,9 +39,9 @@ class MealRepository
 
   def save_csv
     CSV.open(@csv_file, "wb") do |csv|
-      csv << %w[id name price]
-      @meals.each do |meal|
-        csv << [meal.id, meal.name, meal.price]
+      csv << %w[id name address]
+      @elements.each do |element|
+        csv << build_row(element)
       end
     end
   end
@@ -51,9 +50,8 @@ class MealRepository
     csv_options = { headers: :first_row, header_converters: :symbol }
     CSV.foreach(@csv_file, csv_options) do |row|
       row[:id] = row[:id].to_i
-      row[:price] = row[:price].to_i
-      @meals << Meal.new(row)
+      @elements << build_element(row)
     end
-    @next_id = @meals.last.id + 1 unless @meals.empty?
+    @next_id = @elements.last.id + 1 unless @elements.empty?
   end
 end
