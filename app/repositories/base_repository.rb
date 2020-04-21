@@ -39,7 +39,7 @@ class BaseRepository
 
   def save_csv
     CSV.open(@csv_file, "wb") do |csv|
-      csv << %w[id name address]
+      csv << build_headers
       @elements.each do |element|
         csv << build_row(element)
       end
