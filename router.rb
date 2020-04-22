@@ -51,6 +51,8 @@ class Router
     puts "8. Delete a customer"
     puts "9. Add new order"
     puts "10. List all undelivered orders"
+    puts "11. Edit an undelivered order"
+    puts "12. Delete an undelivered order"
     common_menu
   end
 
@@ -64,8 +66,8 @@ class Router
   end
 
   def common_menu
-    puts "11. Logout"
-    puts "12. Exit"
+    puts "13. Logout"
+    puts "14. Exit"
     print "> "
   end
 
@@ -81,8 +83,10 @@ class Router
     when 8 then @customers_controller.delete
     when 9 then @orders_controller.add
     when 10 then @orders_controller.list_undelivered_orders
-    when 11 then logout!
-    when 12 then stop!
+    when 11 then @orders_controller.edit
+    when 12 then @orders_controller.delete
+    when 13 then logout!
+    when 14 then stop!
     else puts "Try again..."
     end
   end
@@ -91,8 +95,8 @@ class Router
     case choice
     when 1 then @orders_controller.list_my_orders(@current_user)
     when 2 then @orders_controller.mark_as_delivered(@current_user)
-    when 11 then logout!
-    when 12 then stop!
+    when 12 then logout!
+    when 13 then stop!
     else puts "Try again..."
     end
   end

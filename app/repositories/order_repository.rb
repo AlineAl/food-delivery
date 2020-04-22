@@ -32,6 +32,19 @@ class OrderRepository
     @orders.select { |order| order.employee == employee && !order.delivered? }
   end
 
+  def update(index, meal, customer, employee)
+    order = undelivered_orders[index]
+    order.meal = meal
+    order.customer = customer
+    order.employee = employee
+    save_csv
+  end
+
+  def destroy(index)
+    undelivered_orders.delete_at(index)
+    save_csv
+  end
+
   private
 
   def load_csv
@@ -48,7 +61,7 @@ class OrderRepository
     @next_id = @orders.last.id + 1 unless @orders.empty?
   end
 
-  def save_to_csv
+  def save_csv
     CSV.open(@csv_file, "wb") do |csv|
       csv << %w[id meal_id customer_id employee_id delivered]
       @orders.each do |order|

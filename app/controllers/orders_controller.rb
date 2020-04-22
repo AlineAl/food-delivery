@@ -21,11 +21,28 @@ class OrdersController
     employee = select_employee
     order = Order.new(meal: meal, customer: customer, employee: employee)
     @order_repo.add(order)
+    display_undelivered_orders
   end
 
   def list_undelivered_orders
-    undelivered_orders = @order_repo.undelivered_orders
-    @orders_view.display(undelivered_orders)
+    display_undelivered_orders
+  end
+
+  def edit
+    display_undelivered_orders
+    index = @orders_view.ask_user_for_index
+    meal = select_meal
+    customer = select_customer
+    employee = select_employee
+    @order_repo.update(index, meal, customer, employee)
+    display_undelivered_orders
+  end
+
+  def delete
+    display_undelivered_orders
+    index = @orders_view.ask_user_for_index
+    @order_repo.destroy(index)
+    display_undelivered_orders
   end
 
   def list_my_orders(current_user)
@@ -61,6 +78,11 @@ class OrdersController
     @sessions_view.display(employees)
     index = @orders_view.ask_user_for_index
     return employees[index]
+  end
+
+  def display_undelivered_orders
+    undelivered_orders = @order_repo.undelivered_orders
+    @orders_view.display(undelivered_orders)
   end
 
   def list_my_undelivered_orders(user)
