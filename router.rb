@@ -43,8 +43,7 @@ class Router
     when 7 then @customers_controller.edit
     when 8 then @customers_controller.delete
     when 9 then stop!
-    else
-      puts "Try again..."
+    else puts "Try again..."
     end
   end
 
