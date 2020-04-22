@@ -32,7 +32,6 @@ class MealsController
     display_meals
     index = @meals_view.ask_user_for(:index).to_i - 1
     @meal_repository.destroy(index)
-    display_meals
   end
 
   private
