@@ -2,6 +2,13 @@ require_relative "base_repository"
 require_relative "../models/meal"
 
 class MealRepository < BaseRepository
+  def update(index, name, price)
+    element = @elements[index]
+    element.name = name
+    element.price = price
+    save_csv
+  end
+
   private
 
   def build_headers

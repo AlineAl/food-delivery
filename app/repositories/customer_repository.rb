@@ -2,6 +2,13 @@ require_relative "base_repository"
 require_relative "../models/customer"
 
 class CustomerRepository < BaseRepository
+  def update(index, name, address)
+    element = @elements[index]
+    element.name = name
+    element.address = address
+    save_csv
+  end
+
   private
 
   def build_headers

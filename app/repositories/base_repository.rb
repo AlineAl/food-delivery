@@ -23,13 +23,6 @@ class BaseRepository
     @elements.find { |element| element.id == id }
   end
 
-  def update(index, name, address)
-    element = @elements[index]
-    element.name = name
-    element.address = address
-    save_csv
-  end
-
   def destroy(index)
     @elements.delete_at(index)
     save_csv
