@@ -16,7 +16,7 @@ class OrderRepository
     order.id = @next_id
     @orders << order
     @next_id += 1
-    save_to_csv
+    save_csv
   end
 
   def undelivered_orders
@@ -25,7 +25,7 @@ class OrderRepository
 
   def mark_as_delivered(order)
     order.deliver!
-    save_to_csv
+    save_csv
   end
 
   def my_undelivered_orders(employee)
