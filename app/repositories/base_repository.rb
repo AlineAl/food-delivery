@@ -8,15 +8,15 @@ class BaseRepository
     load_csv if File.exist?(@csv_file)
   end
 
-  def all
-    @elements
-  end
-
   def create(element)
     element.id = @next_id
     @elements << element
     @next_id += 1
     save_csv
+  end
+
+  def all
+    @elements
   end
 
   def find(id)
